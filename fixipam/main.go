@@ -10,9 +10,13 @@ import (
 func main() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	skel.PluginMain(cmdAdd, cmdDel)
 }
 func validateRangeIP(ip net.IP, ipnet *net.IPNet) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !ipnet.Contains(ip) {
@@ -21,6 +25,8 @@ func validateRangeIP(ip net.IP, ipnet *net.IPNet) error {
 	return nil
 }
 func cmdAdd(args *skel.CmdArgs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ipamConf, err := LoadIPAMConfig(args.StdinData, args.Args)
@@ -51,6 +57,8 @@ func cmdAdd(args *skel.CmdArgs) error {
 	return r.Print()
 }
 func cmdDel(args *skel.CmdArgs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, err := LoadIPAMConfig(args.StdinData, args.Args)

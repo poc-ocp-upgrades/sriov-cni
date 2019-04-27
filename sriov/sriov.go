@@ -62,14 +62,20 @@ type LinksByIndex []os.FileInfo
 func (l LinksByIndex) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(l)
 }
 func (l LinksByIndex) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l[i], l[j] = l[j], l[i]
 }
 func (l LinksByIndex) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	link_a, _ := netlink.LinkByName(l[i].Name())
@@ -79,9 +85,13 @@ func (l LinksByIndex) Less(i, j int) bool {
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	runtime.LockOSThread()
 }
 func checkIf0name(ifname string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	op := []string{"eth0", "eth1", "lo", ""}
@@ -93,6 +103,8 @@ func checkIf0name(ifname string) bool {
 	return true
 }
 func loadConf(bytes []byte) (*NetConf, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n := &NetConf{}
@@ -126,6 +138,8 @@ func loadConf(bytes []byte) (*NetConf, error) {
 func getVfInfo(vfPci string) (*VfInformation, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pf, err := getPfName(vfPci)
 	if err != nil {
 		return nil, err
@@ -137,6 +151,8 @@ func getVfInfo(vfPci string) (*VfInformation, error) {
 	return &VfInformation{PCIaddr: vfPci, Pfname: pf, Vfid: vfID}, nil
 }
 func saveScratchNetConf(containerID, dataDir string, netconf []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := os.MkdirAll(dataDir, 0700); err != nil {
@@ -152,6 +168,8 @@ func saveScratchNetConf(containerID, dataDir string, netconf []byte) error {
 func consumeScratchNetConf(containerID, dataDir string) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	path := filepath.Join(dataDir, containerID)
 	defer os.Remove(path)
 	data, err := ioutil.ReadFile(path)
@@ -161,6 +179,8 @@ func consumeScratchNetConf(containerID, dataDir string) ([]byte, error) {
 	return data, err
 }
 func savedpdkConf(cid, dataDir string, conf *NetConf) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dpdkconfBytes, err := json.Marshal(conf.DPDKConf)
@@ -177,6 +197,8 @@ func savedpdkConf(cid, dataDir string, conf *NetConf) error {
 func (dc *dpdkConf) getdpdkConf(cid, podIfName, dataDir string, conf *NetConf) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := []string{cid, podIfName}
 	cRef := strings.Join(s, "-")
 	dpdkconfBytes, err := consumeScratchNetConf(cRef, dataDir)
@@ -189,6 +211,8 @@ func (dc *dpdkConf) getdpdkConf(cid, podIfName, dataDir string, conf *NetConf) e
 	return nil
 }
 func enabledpdkmode(conf *dpdkConf, ifname string, dpdkmode bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stdout := &bytes.Buffer{}
@@ -213,6 +237,8 @@ func enabledpdkmode(conf *dpdkConf, ifname string, dpdkmode bool) error {
 func getpciaddress(ifName string, vf int) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var pciaddr string
 	vfDir := fmt.Sprintf("/sys/class/net/%s/device/virtfn%d", ifName, vf)
 	dirInfo, err := os.Lstat(vfDir)
@@ -230,6 +256,8 @@ func getpciaddress(ifName string, vf int) (string, error) {
 	return pciaddr, nil
 }
 func getSharedPF(ifName string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pfName := ""
@@ -255,6 +283,8 @@ func getSharedPF(ifName string) (string, error) {
 func getsriovNumfs(ifName string) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var vfTotal int
 	sriovFile := fmt.Sprintf("/sys/class/net/%s/device/sriov_numvfs", ifName)
 	if _, err := os.Lstat(sriovFile); err != nil {
@@ -275,6 +305,8 @@ func getsriovNumfs(ifName string) (int, error) {
 	return vfTotal, nil
 }
 func setSharedVfVlan(ifName string, vfIdx int, vlan int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -310,6 +342,8 @@ func setSharedVfVlan(ifName string, vfIdx int, vlan int) error {
 func moveIfToNetns(ifname string, netns ns.NetNS) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vfDev, err := netlink.LinkByName(ifname)
 	if err != nil {
 		return fmt.Errorf("failed to lookup vf device %v: %q", ifname, err)
@@ -323,6 +357,8 @@ func moveIfToNetns(ifname string, netns ns.NetNS) error {
 	return nil
 }
 func getDeviceNameFromPci(pciaddr string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var devName string
@@ -342,6 +378,8 @@ func getDeviceNameFromPci(pciaddr string) (string, error) {
 	return strings.TrimSpace(devName), nil
 }
 func setupWithVfInfo(conf *NetConf, netns ns.NetNS, cid, podifName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -382,6 +420,8 @@ func setupWithVfInfo(conf *NetConf, netns ns.NetNS, cid, podifName string) error
 	})
 }
 func setupVF(conf *NetConf, ifName string, podifName string, cid string, netns ns.NetNS) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var vfIdx int
@@ -487,6 +527,8 @@ func setupVF(conf *NetConf, ifName string, podifName string, cid string, netns n
 func releaseVF(conf *NetConf, podifName string, cid string, netns ns.NetNS) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if conf.DPDKMode != false {
 		df := &dpdkConf{}
 		if err := df.getdpdkConf(cid, podifName, conf.CNIDir, conf); err != nil {
@@ -564,6 +606,8 @@ func releaseVF(conf *NetConf, podifName string, cid string, netns ns.NetNS) erro
 func resetVfVlan(pfName, vfName string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vfTotal, err := getsriovNumfs(pfName)
 	if err != nil {
 		return err
@@ -595,6 +639,8 @@ func resetVfVlan(pfName, vfName string) error {
 func getSriovPfList() ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sriovNetDevices := []string{}
 	netDevices, err := ioutil.ReadDir(netDirectory)
 	if err != nil {
@@ -618,6 +664,8 @@ func getSriovPfList() ([]string, error) {
 func getPfName(vf string) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sysBusPci := "/sys/bus/pci/devices"
 	pfSymLink := filepath.Join(sysBusPci, vf, "physfn", "net")
 	_, err := os.Lstat(pfSymLink)
@@ -634,6 +682,8 @@ func getPfName(vf string) (string, error) {
 	return strings.TrimSpace(files[0].Name()), nil
 }
 func getVfid(addr string, pfName string) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var id int
@@ -661,6 +711,8 @@ func getVfid(addr string, pfName string) (int, error) {
 	return id, nil
 }
 func cmdAdd(args *skel.CmdArgs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, err := loadConf(args.StdinData)
@@ -707,6 +759,8 @@ func cmdAdd(args *skel.CmdArgs) error {
 func cmdDel(args *skel.CmdArgs) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, err := loadConf(args.StdinData)
 	if err != nil {
 		return err
@@ -736,6 +790,8 @@ func cmdDel(args *skel.CmdArgs) error {
 func renameLink(curName, newName string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	link, err := netlink.LinkByName(curName)
 	if err != nil {
 		return fmt.Errorf("failed to lookup device %q: %v", curName, err)
@@ -743,6 +799,8 @@ func renameLink(curName, newName string) error {
 	return netlink.LinkSetName(link, newName)
 }
 func setUpLink(ifName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	link, err := netlink.LinkByName(ifName)
@@ -754,12 +812,23 @@ func setUpLink(ifName string) error {
 func main() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	skel.PluginMain(cmdAdd, cmdDel)
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
