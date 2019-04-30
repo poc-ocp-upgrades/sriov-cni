@@ -8,62 +8,51 @@ import (
 )
 
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	skel.PluginMain(cmdAdd, cmdDel)
 }
-
 func validateRangeIP(ip net.IP, ipnet *net.IPNet) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !ipnet.Contains(ip) {
 		return fmt.Errorf("%s not in network: %s", ip, ipnet)
 	}
 	return nil
 }
-
 func cmdAdd(args *skel.CmdArgs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ipamConf, err := LoadIPAMConfig(args.StdinData, args.Args)
 	if err != nil {
 		return err
 	}
-
 	var requestIP net.IP
 	if ipamConf.Args != nil {
 		requestIP = ipamConf.Args.IP
 	}
-
 	if requestIP == nil {
 		return fmt.Errorf("request IP can not be empty")
 	}
-
 	gw := ipamConf.Gateway
-
 	if gw == nil {
 		return fmt.Errorf("gateway can not be empty")
 	}
-
 	if gw != nil && gw.Equal(ipamConf.Args.IP) {
 		return fmt.Errorf("requested IP must differ gateway IP")
 	}
-
-	subnet := net.IPNet{
-		IP:   ipamConf.Subnet.IP,
-		Mask: ipamConf.Subnet.Mask,
-	}
+	subnet := net.IPNet{IP: ipamConf.Subnet.IP, Mask: ipamConf.Subnet.Mask}
 	err = validateRangeIP(requestIP, &subnet)
 	if err != nil {
 		return err
 	}
-
-	ipConf := &types.IPConfig{
-		IP:      net.IPNet{IP: requestIP, Mask: ipamConf.Subnet.Mask},
-		Gateway: gw,
-		Routes:  ipamConf.Routes,
-	}
-	r := &types.Result{
-		IP4: ipConf,
-	}
+	ipConf := &types.IPConfig{IP: net.IPNet{IP: requestIP, Mask: ipamConf.Subnet.Mask}, Gateway: gw, Routes: ipamConf.Routes}
+	r := &types.Result{IP4: ipConf}
 	return r.Print()
 }
-
 func cmdDel(args *skel.CmdArgs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := LoadIPAMConfig(args.StdinData, args.Args)
 	if err != nil {
 		return err
